@@ -11,7 +11,6 @@ $(document).ready(function() {
         clearInterval(num_t);
         $("#contador").text("Empieza");
         move();
-        // who_win();
       }else{
         $("#contador").text(x);
         x -= 1;
@@ -24,29 +23,16 @@ $(document).ready(function() {
 function move(){
     var t = 0;
     var y = 0;
-    var det1 = false;
-    var det2 = false;
     var move_space = setInterval(move_s, 1);
     var move_space_s = setInterval(move_s_s, 1);
-    
     function move_s(){
       if (t == 100){
         clearInterval(move_space);
       }else{
         $(".active:first").animate({"left":t+"%"},0.5);
         t += 1;
-        
-      $(document).keyup(function(tecla){ 
-          if (tecla.keyCode == 65) { //tecla A
-            // clearInterval(move_space);
-            // console.log("tecla A");
-            det1 = true;
-          }
-      });
-      if (det1 == true)
-        clearInterval(move_space)
-        det1 = false;
-        // who_win();
+        if (detect_key())
+          clearInterval(move_space);
       }
     }
     function move_s_s(){
@@ -55,16 +41,8 @@ function move(){
       }else{
         $(".active:last").animate({"left":y+"%"},0.5);
         y += 1;
+       if (detect_key());
 
-      $(document).keyup(function(tecla){ 
-      if (tecla.keyCode == 76) { //tecla L
-        det2=true;
-        }
-      });
-      if (det2 == true)
-        clearInterval(move_space_s);
-        det2 = false;
-        // who_win();
       }
     }
 }
@@ -75,21 +53,21 @@ function clean(){
   $("div.active").last().css("left","-0.5%");
 }
 
-// function detect_key(){
-//   $(document).keyup(function(tecla){ 
-//     if (tecla.keyCode == 65) { //tecla A
-//       return true
-//     }
-//   });
-// }
+function detect_key(){
+  $(document).keyup(function(tecla){ 
+    if (tecla.keyCode == 65) { //tecla A
+    who_win();
+    }
+  });
+}
 
-// function detect_key(){
-//   $(document).keyup(function(tecla){ 
-//   if (tecla.keyCode == 76) { //tecla L
-//     return true
-//     }
-//   });
-// }
+function detect_key(){
+  $(document).keyup(function(tecla){ 
+  if (tecla.keyCode == 76) { //tecla L
+    who_win();
+    }
+  });
+}
 function who_win() {
       var p1 = $(".active:first").position().left;
       var p2 = $(".active:last").position().left;
